@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<h1>Update Interests</h1>
+
+
+<div class="container">
+    <div class="card" style="margin: 50px auto; font-size=20px">
+        <form class="p-3 mb-2 text-black" method="post"
+              style="margin-bottom: 15px; background: #f7f7f7; box-shadow: 0px 2px 2px rgba(0,0,0,0.3) padding: 30px">
+            {% csrf_token %}
+            <div class="card-header">
+                <h2 class="text-center">Update Info</h2>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Interested Religion</label>
+                        {{ form.interest_religion|add_class:"form-control" }}
+                        <!--                        {% for error in form.phone.errors %}-->
+                        <!--                        <li class="small text-danger">{{ error }}</li>-->
+                        <!--                        {% endfor %}-->
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Interested District</label>
+                        {{ form.interest_district|add_class:"form-control" }}
+                        <!--                        {% for error in form.nid.errors %}-->
+                        <!--                        <li class="small text-danger">{{ error }}</li>-->
+                        <!--                        {% endfor %}-->
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <dib><label class="form-label">Interested Gender</label></dib>
+                <div>{{form.interest_gender|add_class:"form-control" }}</div>
+                <!--                {% for error in form.bio.errors %}-->
+                <!--                <li class="small text-danger">{{ error }}</li>-->
+                <!--                {% endfor %}-->
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Max Height(cm)</label>
+                        {{ form.interest_max_height|add_class:"form-control"}}
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Max Height(cm)</label>
+                        {{ form.interest_min_height|add_class:"form-control"}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Interested max Age</label>
+                        {{ form.interest_max_age|add_class:"form-control"}}
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Interested Min Age</label>
+                        {{ form.interest_min_age|add_class:"form-control"}}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-success btn-block">Update</button>
+                </div>
+                <div class="col-lg-6 ">
+                    <a class="btn btn-secondary float-right" href="{% url 'profile' user.id %}">Go Back</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

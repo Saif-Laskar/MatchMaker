@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load widget_tweaks %}
+
+
+{% block content %}
+
+
+<div class="mt-5 text-center"><h3>My Favourite Profiles</h3></div>
+
+<div class="container">
+    <div class="row mt-4 ">
+
+        {% for profile in Wishedprofiles %}
+
+        <div class="col-lg-4 mb-3">
+            <div class="card" style="width: 20rem;">
+                {% if profile.image %}
+                <img class="card-img-top" src="{{ profile.image.url }}" alt="Card image cap">
+                {% else %}
+                <img class="card-img-top" src="{% static 'images/user-placeholder.jpg'  %}" alt="Card image cap">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ profile.user.name }}
+                        {% if profile.date_of_birth %}
+                        ({{ profile.age }})
+                        {% endif %}
+                    </h5>
+                    <hr/>
+                    {% if profile.gender %}
+                    <p class="card-text">{{ profile.gender }}</p>
+                    {% endif %}
+                    {% if profile.religion %}
+                    <p class="card-text">{{ profile.religion }}</p>
+                    {% endif %}
+                    <a href="{% url 'profile' profile.user.id %}" class="card-link">Profile</a>
+
+                    <a href="#" class="card-link">Request to Meet</a>
+                </div>
+            </div>
+        </div>
+
+        {% endfor%}
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

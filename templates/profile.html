@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row" style="margin: 50px auto; font-size=20px">
+
+        <div class="col-md-4">
+
+            <div class="card">
+                {% if profile.image %}
+                <img class="card-img-top" alt="{{ user.name }}" src="{{ profile.image.url}}">
+                {% else %}
+                <img class="card-img-top" alt="{{ user.name }}"
+                     src="{% static 'images/user-placeholder.jpg' %}">
+                {% endif %}
+
+                <div class="card-body">
+                    <p class="text-center">
+                        <span class="h2">{{ user.name }}</span>
+                        <small>({{ profile.age }} years old )</small>
+                    </p>
+                </div>
+
+                <div class="card-footer">
+                    {% if is_self %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="btn btn-primary" href="{% url 'edit-profile' %}">
+                                <i class="fa fa-edit"></i> Edit Profile
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-primary" href="{% url 'update-interests' %}">
+                                <i class="fa fa-edit"></i> Edit Interests
+                            </a>
+                        </div>
+                    </div>
+                    </p>
+                    {% else %}
+                    <p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="btn btn-dark" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-person-plus" viewBox="0 0 16 16">
+                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                                </svg>
+                                Request to Meet
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            {% if not_wished %}
+                            <a class="btn btn-dark" href="{% url 'addToWishList' profile.user.id %}">
+
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>Add to Favourite List
+
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1>General Information</h1>
+                </div>
+                <div class="row m-5">
+                    <div class="col-lg-6">
+                        {% if is_self %}
+                        <p><strong>Email:</strong> <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+                        {% endif %}
+
+                        {% if profile.bio %}
+                        <p><strong>Bio:</strong> {{profile.bio}}</p>
+                        {% elif is_self and not profile.bio %}
+                        <p><strong>Bio: </strong><a class="btn btn-primary" href="{% url 'edit-profile' %}">Add Bio</a>
+                        </p>
+                        {% endif %}
+
+                        {% if profile.relation_status %}
+                        <p><strong>Relationship Status: </strong>{{ profile.relation_status }}</p>
+                        {% elif is_self and not profile.relation_status %}
+                        <p><strong>Relationship Status:</strong> <a class="btn btn-primary"
+                                                                    href="{% url 'edit-profile' %}">Add Relationship
+                            Status</a>
+                        </p>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-lg-6">
+                        {% if profile.phone %}
+                        <p><strong>Phone: </strong>{{ profile.phone }}</p>
+                        {% elif is_self and not profile.phone %}
+                        <p><strong>Phone: </strong><a class="btn btn-primary" href="{% url 'edit-profile' %}">Add
+                            Phone</a>
+                        </p>
+                        {% endif %}
+
+                        {% if profile.gender %}
+                        <p><strong>Gender: </strong>{{ profile.gender }}</p>
+                        {% elif is_self and not profile.gender %}
+                        <p><strong>Phone: </strong><a class="btn btn-primary" href="{% url 'edit-profile' %}">Add
+                            Gender</a>
+                        </p>
+                        {% endif %}
+
+                        {% if is_self %}
+                        {% if profile.nid %}
+                        <p><strong>NID: </strong>{{ profile.nid }} (Not visible to others)</p>
+                        {% elif is_self and not profile.nid %}
+                        <p><strong>NID:</strong> <a class="btn btn-primary" href="{% url 'edit-profile' %}">Add NID</a>
+                            (Not visible to others)
+                        </p>
+                        {% endif %}
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h1>Interests</h1>
+                </div>
+                <div class="row m-5">
+                    <div class="col-lg-6">
+                        <p><strong>Religion: </strong>{{ interest.interest_religion }}</p>
+                        <p><strong>Gender: </strong>{{ interest.interest_gender }}</p>
+                        <p><strong>Height Range: </strong> {{interest.interest_max_height}} cm -
+                            {{interest.interest_min_height}} cm</p>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <p><strong>Age Range: </strong>
+                            {{ interest.interest_max_age }} - {{ interest.interest_min_age }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
